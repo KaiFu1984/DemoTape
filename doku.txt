@@ -1,0 +1,14 @@
+Types are Caps = "Bird"
+names are small = "bird"
+
+Persistant Constructors will use standart types
+	-> this will overide special behavior of subPrototypes
+
+
+	->implement appliedActions toConstructor
+
+kann probleme machen weil keine valide kopie sonder orignal possible
+	this.possibleActions[this.appliedActions[i]].resetDuration()
+	zb. gameElementGravity duration in possible wird gesenkt
+
+	du kannnst betrachten: ist applied seit oder applied inherenter wert

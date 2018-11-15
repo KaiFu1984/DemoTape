@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html>
+
+
+<body bgcolor = "#000000" >
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<div>  </div>
+<!-- <script src = "images1.0.js"></script> -->
+<script src = "testFramework.js"></script>
+<script src = "gameObjects1.0.js"></script>
+<script src = "specificObjects1.0.js"></script>
+
+<script> 
+	//push your testobjects Tests Here
+	//aTestTest should be false
+	//new TestObect(name,value,anotherValue)
+	//use var instead of let to override its value 
+//js behaviour
+	var constructorSpeed = function()
+	{
+		for(i = 0;i<1000000000 ; i++)
+		{
+			new Position();
+		}
+	}
+	tests.push(new Uberschrift('Position Object Tests'))
+	//sameObject
+	var position1 = new Position("1,1");
+	var position2 = new Position("1,2");
+	var sameObjectFalse = position1 === position2;
+	tests.push(new TestObject('SameObjectFalse', sameObjectFalse, false));
+	
+	//sameObjectTrue
+	var position1 = new Position("1,1");
+	var position2 = new Position("1,2");
+	var sameObjectTrue = position1 === position1;
+	tests.push(new TestObject('SameObjectTrue', sameObjectTrue, true));
+	
+//Position Prototype Tests
+	//constructorXPosition
+	tests.push(new TestObject('positionXConstructor',((new Position("5,5")).x),5))
+	//plusModify()XPosition
+	var position1 = new Position("1,1");
+	var position2 = new Position("1,2");
+	var corpse = position1.plusModify(position2);
+	tests.push(new TestObject('plusModify()XPositions',corpse.x,2));
+	//plusModify()ReturnsObject1
+	var position1 = new Position("1,1");
+	var position2 = new Position("1,2");
+	var corpse = position1.plusModify(position2);
+	var sameObject = corpse === position1;
+	tests.push(new TestObject('plusModify()ReturnsObject1',sameObject, true));
+	//plus()offsetsXCorrect
+	var position1 = new Position("1,1");
+	var position2 = new Position("1,2");
+	var corpse = position1.plus(position2);
+	tests.push(new TestObject('plus()offsetsXCorrect', corpse.x, 2));
+	//plus()returnsANewInstance
+	var position1 = new Position("1,1");
+	var position2 = new Position("1,2");
+	var corpse = position1.plus(position2);
+	var sameObject = corpse === position1;
+	tests.push(new TestObject('plus()returnsANewInstance', sameObject, false));
+	//aPositionInsideABox
+	var position1 = new Position("2,2");
+	var box = new Box("1,1,5,5");
+	var corpse = position1.isInside(box);
+	tests.push(new TestObject('aPositionInsideABox',corpse,true));
+	//aPositionNOTInsideABox
+	var position1 = new Position("12,12");
+	var box = new Box("1,1,10,10");
+	var corpse = position1.isInside(box);
+	tests.push(new TestObject('aPositionNOTInsideABox',corpse,false));
+	
+	//pointWithTheLowestValue
+	var position1 = new Position("5,12")
+	var position2 = new Position("7,3")
+	var corpse = position1.positionWithlowestValue(position2).equals(position2)
+	tests.push(new TestObject('pointWithTheLowestValue',corpse,true));
+	
+	//realsDistance
+	var position1 = new Position("0,0")
+	var position2 = new Position("3,0")
+	var corpse = position1.distanceTo(position2) === 3
+	tests.push(new TestObject('PositionDistanceToAnotherPoint',corpse,true));
+	
+	//shorterDistance
+	var startingPoint = new Position("0,0")
+	var position1 = new Position("1,5,1,5")
+	var position2 = new Position("3,0")
+	var corpse = startingPoint.shorterDistance(position1,position2).equals(position2)
+	tests.push(new TestObject('PositionShorterDistance',corpse,true))
+	
+	
+	//BoxTest
+	tests.push(new Uberschrift('Box Object Tests'))
+	//aBoxLeft
+	var box1 = new Box("10,10,20,20")
+	var corpse = box1.left() === 10
+	tests.push(new TestObject('aBoxLeft',corpse,true))
+	
+	//aBoxRight
+	var box1 = new Box("10,10,20,20")
+	var corpse = box1.right() === 30
+	tests.push(new TestObject('aBoxRight',corpse,true))
+	
+	//aBoxOben
+	var box1 = new Box("10,10,20,20")
+	var corpse = box1.oben()=== 10
+	tests.push(new TestObject('aBoxOben',corpse,true))
+	
+	//aBoxBottom
+	var box1 = new Box("10,10,20,20")
+	var corpse = box1.bottom() === 30
+	tests.push(new TestObject('aBoxBottom',corpse,true))
+
+	//width
+	var box1 = new Box("5,5,7,7")
+	var corpse = box1.width() === 7
+	tests.push(new TestObject('BoxWidth',corpse,true))
+
+	//height
+	var box1 = new Box("5,5,7,7")
+	var corpse = box1.height() === 7
+	tests.push(new TestObject('BoxHeight',corpse,true))
+
+	//centerPoint()
+	var box1 = new Box("0,0,10,10")
+	var corpse = box1.centerPoint().equals(new Position("5,5"))
+	tests.push(new TestObject('BoxCenterPosition',corpse,true))
+	
+
+	//aBoxisIntersectingWithAnotherBoxBottomRight
+	var box1 = new Box("1,1,10,10")
+	var box2 = new Box("9,8,20,20")
+	var corpse = box1.isIntersectingWith(box2)
+	tests.push(new TestObject('aBoxisIntersectingWithAnotherBoxBottomRight',corpse,true))
+	
+	//aBoxisNOTIntersectingWithAnotherBox
+	var box1 = new Box("1,1,10,10")
+	var box2 = new Box("12,12,20,20")
+	var corpse = box1.isIntersectingWith(box2)
+	tests.push(new TestObject('aBoxisNOOTIntersectingWithAnotherBox',corpse,false))
+	
+	//aBoxisIntersectingWithAnotherBoxTopLeft
+	var box1 = new Box("1,1,10,10")
+	var box2 = new Box("0,0,2,2")
+	var corpse = box1.isIntersectingWith(box2)
+	tests.push(new TestObject('aBoxisIntersectingWithAnotherBoxTopLeft',corpse,true))
+	
+	//aBoxisIntersectingWithAnotherBoxBottomLeft
+	var box1 = new Box("1,1,10,10")
+	var box2 = new Box("0,9,3,3")
+	var corpse = box1.isIntersectingWith(box2)
+	tests.push(new TestObject('aBoxisIntersectingWithAnotherBoxBottomLeft',corpse,true))
+	
+	//aBoxisIntersectingWithAnotherBoxTopRight
+	var box1 = new Box("1,1,10,10")
+	var box2 = new Box("2,9,10,10")
+	var corpse = box1.isIntersectingWith(box2)
+	tests.push(new TestObject('aBoxisIntersectingWithAnotherBoxTopRight',corpse,true))
+	
+	//translateABoxPosition
+	var box1 = new Box("4,5,10,10");
+	box1.translate(new Position("10,10"));
+	var corpse = box1.left() === 14
+	tests.push(new TestObject('translateABoxPosition',corpse, true));
+	
+	//shortestIntersection
+	var box1 = new Box("5,5,10,10")
+	var box2 = new Box("1,1,8,4")
+	var corpse = box2.shortestIntersection(box1)=== "no Intersection"
+	tests.push(new TestObject('shortestIntersection NoIntersection',corpse, true));
+	
+	//collisionmass?
+	var box1 = new Box("2,2,2,2")
+	var box2 = new Box("1,1,2,2")
+	var corpse = box2.shortestIntersection(box1).equals(new Position("1,1"))
+	tests.push(new TestObject('shortestIntersection',corpse, true));
+	
+	//Persitance 
+	tests.push(new Uberschrift('Persistance/Constructor Tests'))
+	
+	//initPositionWith String 
+	var pos1 = new Position("2,2")
+	corpse = pos1.x === 2 && pos1.y === 2
+	tests.push(new TestObject("InitPositionWithAString'2,2'",corpse,true))
+	
+	//initPositionWith ParameterObject 
+	var pos1 = new Position({x:2, y:2})
+	corpse = pos1.x === 2 && pos1.y === 2
+	tests.push(new TestObject("InitPositionWithParmatereObject{x:2,y:2}",corpse,true))
+	
+	//Position from an generic object with position propertys 
+	var pos1 = new Position("2,2")
+	var pos1String = JSON.stringify(pos1)
+	var genericPos1 = JSON.parse(pos1String)
+	var pos2 = new Position(genericPos1)
+	var corpse = pos1.x === pos2.x && pos1.y === pos2.y
+	tests.push(new TestObject('PositionConstructorWithAGenericPositionAsArgumentX&YequalsX&Y',corpse, true))
+	
+	//Box From String
+	var box1 = new Box("66,5,88,222")
+	var corpse = box1.dimensions === "66,5,88,222" && box1.position.x === 66
+	tests.push(new TestObject('BoxFromStringDimensionAndPosition',corpse, true))
+	
+	// Box from Box ParameterObject
+	var box1 = new Box("66,5,88,222")
+	var box1String = JSON.stringify(box1)
+	var genericBox1 = JSON.parse(box1String)
+	var box2 = new Box(genericBox1)
+	var corpse = box1.dimensions === box2.dimensions
+	tests.push(new TestObject('BoxWithGenericBoxAsArgumentDimensions',corpse, true))
+	
+	var corpse = box1.position.equals(box2.position)
+	tests.push(new TestObject('BoxWithGenericBoxAsArgumentPosition',corpse, true))
+	
+	var corpse = box1.extent.equals(box2.extent)
+	tests.push(new TestObject('BoxWithGenericBoxAsArgumentExtent',corpse, true))
+	
+	var corpse = box1.color === box2.color
+	tests.push(new TestObject('BoxWithGenericBoxAsArgumentColor',corpse, true))
+	
+	var corpse = box1.type === box2.type
+	tests.push(new TestObject('BoxWithGenericBoxAsArgumentType',corpse, true))
+	
+	//Stream
+	var stream1 = new Stream({contentArray:[1,2,4]})
+	var stream1String = JSON.stringify(stream1)
+	var genericStream1 = JSON.parse(stream1String)
+	var stream2 = new Stream(genericStream1)
+	var solution = true
+	for(var i =0; i < stream1.contentArray.length; i++)
+	{ 
+		if(stream1.contentArray[i] !== stream2.contentArray[i])
+		{solution = false}
+	}
+	corpse = solution
+	tests.push(new TestObject('StreamFromGenericStreamContentArray',corpse, true))
+	
+	stream1.next()
+	stream2.next()
+	corpse = stream1.position === stream2.position
+	tests.push(new TestObject('StreamFromGenericStreamPosition',corpse, true))
+	var imageStream1 = new ImageStream(
+									{
+										tick:10,
+										imageArray:
+										[
+											"katze1",
+											"katze2",
+											"katze3",
+											"katze4",
+										],
+										imageArrayLeft:
+										[
+											"katze1",
+											"katze2",
+											"katze3",
+											"katze4",
+										],
+									}
+								)
+	imageStream1.next(new Position(1,1))
+	var imageStream1String = JSON.stringify(imageStream1)
+	var genericImageStream1 = JSON.parse(imageStream1String)
+	var imageStream2 = new ImageStream(genericImageStream1)
+	var corpse = imageStream1.streamPosition === imageStream2.streamPosition
+	tests.push(new TestObject('ImageStreamFromGenericImageStreamStreamPosition',corpse, true))
+	
+	//ForceArray
+	var forceStream = new ForceStream({forceArray:[new Position("0,0"),new Position("1,0"), new Position("-1,0"), new Position("-1,-1"), new Position("1,1")], delay:38})
+	forceStream.next(new Position("1,1"))
+	var forceStream1String = JSON.stringify(forceStream)
+	var genericForceStream = JSON.parse(forceStream1String)
+	var forceStream2 = new Box(genericForceStream)
+	var corpse = forceStream.forceArray[2].x === forceStream2.forceArray[2].x
+	tests.push(new TestObject('ForceStreamFromGenericForceStreamForceArray',corpse, true))
+	
+	var corpse = forceStream.streamPosition === forceStream2.streamPosition
+	tests.push(new TestObject('ForceStreamFromGenericForceStreamStreamPosition',corpse, true))
+	
+	// Action
+	var imageStream = new ImageStream(
+									{
+										tick:10,
+										imageArray:
+										[
+											"katze1",
+											"katze2",
+											"katze3",
+											"katze4",
+										],
+										imageArrayLeft:
+										[
+											"katze1",
+											"katze2",
+											"katze3",
+											"katze4",
+										],
+									}
+								)
+	var forceStream = new ForceStream({forceArray:[new Position("0,0"),new Position("1,0"), new Position("-1,0"), new Position("-1,-1"), new Position("1,1")], delay:38})
+	var action = new Action({name:"aString", animation: imageStream, force: forceStream, priority: 34, enduranceCost: 2, duration:200})
+	var actionString = JSON.stringify(action)
+	var genericAction = JSON.parse(actionString)
+	var action2 = new Action(genericAction)
+	var corpse = action.force.forceArray[2].x === action2.force.forceArray[2].x
+	tests.push(new TestObject('ActionFromGenericActionForceForceArray',corpse, true))
+	
+	var corpse = action.name === action.name
+	tests.push(new TestObject('ActionFromGenericActionName',corpse, true))
+	
+	// gameElement
+	var imageStream = new ImageStream({tick:10,imageArray:["katze1","katze2","katze3","katze4"],imageArrayLeft:["katze1","katze2","katze3","katze4"]})
+	var forceStream = new ForceStream({forceArray:[new Position("0,0"),new Position("1,0"), new Position("-1,0"), new Position("-1,-1"), new Position("1,1")], delay:38})
+	var action = new Action({name:"aString", animation: imageStream, force: forceStream, priority: 34, enduranceCost: 2, duration:200})
+	var pmo = {name:"testElement", position: new Position("122,22"), crashBox:new Box("44,192,432,402"), possibleActions:{[action.name]:action},  direction:new Position({x:-1,y:1})}
+	var gameElement = new GameElement(pmo)
+		
+	var gameElementString = JSON.stringify(gameElement)
+	var genericGameElement = JSON.parse(gameElementString)
+	var gameElement2 = new GameElement(genericGameElement)
+	var corpse = gameElement.name === gameElement2.name
+	tests.push(new TestObject('GameElementFromGameElementName',corpse, true))
+	
+	var corpse = gameElement.direction.equals(gameElement2.direction)
+	tests.push(new TestObject('GameElementFromGameElementDirection',corpse, true))
+	
+	var gameElement3 = gameElement2
+	gameElement3.turnRight()
+	var corpse = gameElement.direction.equals(gameElement3.direction)
+	tests.push(new TestObject('GameElementFromGameElementTurnArround()Direction',corpse, false))
+
+	var allPresent = true
+	for(key in gameElement.possibleActions)
+	{	
+		if(gameElement.possibleActions[key].name !== gameElement2.possibleActions[key].name) 
+			{allPresent = false}
+	}
+	var corpse = allPresent
+	tests.push(new TestObject('GameElementFromGameElementPossibleActions',corpse, true))
+	
+	//GameElement - attachedElements
+	var elementList = gameElement.attachedElements 
+	var element2List = gameElement2.attachedElements
+	
+	var corpse = elementList.length === element2List.length
+	tests.push(new TestObject('GameElementFromGameElementAttachedElementsLength',corpse, true))
+	
+	//Layer
+	var imageStream = new ImageStream({tick:10,imageArray:["katze1","katze2","katze3","katze4"],imageArrayLeft:["katze1","katze2","katze3","katze4"]})
+	var forceStream = new ForceStream({forceArray:[new Position("0,0"),new Position("1,0"), new Position("-1,0"), new Position("-1,-1"), new Position("1,1")], delay:38})
+	var action = new Action({name:"aString", animation: imageStream, force: forceStream, priority: 34, enduranceCost: 2, duration:200})
+	var gameElement = new GameElement({name:"testElement", position: new Position("122,22"), type:"SimpleBackgroundElement" ,crashBox:new Box("44,192,432,402"), possibleActions:[action],direction:new Position({x:-1,y:1})})
+	var layer = new Layer({elements:[gameElement]})
+	var layerString = JSON.stringify(layer)
+	var genericLayer = JSON.parse(layerString)
+	var layer2 = new Layer(genericLayer)
+	
+	var corpse = layer.elements[0].name === layer2.elements[0].name
+	tests.push(new TestObject('LayerFromGenericLayerElementsName',corpse, true))
+	
+	//Level
+	var imageStream = new ImageStream({tick:10,imageArray:["katze1","katze2","katze3","katze4"],imageArrayLeft:["katze1","katze2","katze3","katze4"]})
+	var forceStream = new ForceStream({forceArray:[new Position("0,0"),new Position("1,0"), new Position("-1,0"), new Position("-1,-1"), new Position("1,1")], delay:38})
+	var action = new Action({name:"aString", animation: imageStream, force: forceStream, priority: 34, enduranceCost: 2, duration:200})
+	var gameElement = new GameElement({name:"testElement", position: new Position("122,22"), type:"SimpleBackgroundElement" ,crashBox:new Box("44,192,432,402"), possibleActions:[action],direction:new Position({x:-1,y:1})})
+	var level = new Level({layers:{aName:new Layer({name:"aName"}), a2Name:new Layer({name:"a2Name"}), a3Name:new Layer({name:"a3Name", elements:[gameElement]})}})
+	var levelString = JSON.stringify(level)
+	var genericLevel = JSON.parse(levelString)
+	var level2 = new Level(genericLevel)
+	
+	var corpse = level.layers.a3Name.getElements()[0].name === level2.layers.a3Name.getElements()[0].name
+	tests.push(new TestObject('LevelFromGenericLevelElementsName',corpse, true))
+	
+	//world
+	var imageStream = new ImageStream({tick:10,imageArray:["katze1","katze2","katze3","katze4"],imageArrayLeft:["katze1","katze2","katze3","katze4"]})
+	var forceStream = new ForceStream({forceArray:[new Position("0,0"),new Position("1,0"), new Position("-1,0"), new Position("-1,-1"), new Position("1,1")], delay:38})
+	var action = new Action({name:"aString", animation: imageStream, force: forceStream, priority: 34, enduranceCost: 2, duration:200})
+	var gEpmo = {name:"bird", position: new Position("122,22"), crashBox:new Box("44,192,432,402"), possibleActions:[action],direction:new Position({x:-1,y:1})}
+	var gameElement = new Bird(gEpmo)
+	var level = new Level({layers:{aName:new Layer({name:"aName"}), a2Name:new Layer({name:"a2Name"}), a3Name:new Layer({name:"a3Name", elements:[gameElement]})}})
+	
+	var pmo ={levels:new Stream({contentArray:[level, level]})}
+	var world = new World(pmo)
+	var worldString = JSON.stringify(world)
+	var genericWorld = JSON.parse(worldString)
+	var world2 = new World(genericWorld)
+	
+	var corpse = world.bird.name === world2.bird.name
+	tests.push(new TestObject('WorldFromGenericWorldElementsBird',corpse, true))
+	
+	//PersistanteLevelFromSpecificBuild
+	var thisLevel = new PresentationLevel()
+	var levelString = JSON.stringify(level)
+	var genericLevel = JSON.parse(levelString)
+	var level2 = new Level(genericLevel)
+
+	var corpse = level.layers.a3Name.getElements()[0].name === level2.layers.a3Name.getElements()[0].name
+	tests.push(new TestObject('PersistanteLevelFromSpecificBuild',corpse, true))
+	
+	//PersistanteLevelFromSpecificBuildGetName
+	var level = new PresentationLevel()
+	level.layers["foreground"].addElement(new Bird())
+	var levelString = JSON.stringify(level)
+	var genericLevel = JSON.parse(levelString)
+	var level2 = new Level(genericLevel)
+
+	var corpse = level.getElementByName("Bird").type === level2.getElementByName("Bird").type
+	tests.push(new TestObject('PersistanteLevelFromSpecificBuildGetElementByName',corpse, true))
+	
+	//LayerTeests
+	tests.push(new Uberschrift('World Object Tests'))
+	//getElementByName
+		var imageStream = new ImageStream({tick:10,imageArray:["katze1","katze2","katze3","katze4"],imageArrayLeft:["katze1","katze2","katze3","katze4"]})
+	var forceStream = new ForceStream({forceArray:[new Position("0,0"),new Position("1,0"), new Position("-1,0"), new Position("-1,-1"), new Position("1,1")], delay:38})
+	var action = new Action({name:"aString", animation: imageStream, force: forceStream, priority: 34, enduranceCost: 2, duration:200})
+	var gEpmo = {name:"test", position: new Position("122,22"), crashBox:new Box("44,192,432,402"), possibleActions:[action],direction:new Position({x:-1,y:1})}
+	var gameElement = new Bird(gEpmo)
+	var level = new Level({layers:{aName:new Layer({name:"aName"}), a2Name:new Layer({name:"a2Name"}), a3Name:new Layer({name:"a3Name", elements:[gameElement]})}})
+	
+	var pmo ={levels:new Stream({contentArray:[level, level]})}
+	var world = new World(pmo)
+
+	var corpse = world.getElementByName("test").name === "test"
+	tests.push(new TestObject('WorldGetElementByName',corpse, true))
+	
+	
+	
+	//----------------------- Print the TestsObjects -------------------------------------------------------------------
+	
+	var elements = document.getElementsByTagName('div');
+	for (var i = 0; i < tests.length; i++)
+	{
+		if(tests[i].type === 'uberschrift')
+		{
+			elements[i].innerHTML = "<hr>"+"</hr>" + "<h2>" + tests[i].text + "<h2>" + "<hr>"+"</hr>";
+			elements[i].style.color = "orange";	
+		}
+		else
+		{
+			tests[i].evaluate();
+			elements[i].innerHTML = tests[i].testName;
+			elements[i].style.color = tests[i].color;	
+		}
+	}
+</script>
+</body>
+<html>

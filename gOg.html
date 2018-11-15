@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+	<script src="images1.0.js"></script>
+	<script src="gameObjects1.0.js"></script>
+	<script src="specificObjects1.0.js"></script>
+<style>
+:root {
+  --generatorWidth:347px;
+  --generatorHeight:530px;
+}
+h0{
+	font-size:24px;
+}
+h1{
+	font-size:18px;
+	text-align: center;
+}
+@-webkit-keyframes wobble {
+   0% {   -webkit-transform: translate(0.0px,0.0px) scale(1,1); } 
+  50% {   -webkit-transform: translate(0.5px,0.1px) scale(1.1,1.3); }  
+} 
+div.labelRow:hover, div.publish:hover, a:hover, h2:hover{
+	-webkit-animation: wobble 5s infinite;
+}
+div.labelRow{
+	display: table;
+}
+div.labelPillar{
+    display: table-cell;
+}
+div.inputPillar{
+	display: table-cell;		
+}
+input{
+	height:10px;
+	font-family: TimesNewRoman;
+	font-size: 14px;
+	border:none;
+	background-color:transparent;
+	width:100%;
+}
+
+input[type="checkbox"]{
+  height: 15px;
+  width: 15px;
+ 
+}
+input:focus {
+  outline: none;
+}
+p.small{
+	padding:0;
+	margin:0;
+	font-size:12px;
+}
+body {
+	font-family: TimesNewRoman;
+	padding:0;
+	margin:0;
+	background-color: black;
+}
+div.container {
+	padding:0px 12px;
+	width: var(--generatorWidth);
+	height: var(--generatorHeight);
+	position: absolute;
+	background-image: url("Pergament.jpg");
+    background-repeat: no-repeat;
+    border: 1px solid Black;
+}
+div.title{
+	padding-top:12px;
+	height: 48px;
+	text-align: center;
+}
+div.smallSpace{
+	width: var(--generatorWidth);
+	border-top: 3px double black;
+	border-bottom: 3px double black;
+	height:14px;
+	width:371px;
+	margin-left:-12px;
+	display: flex;
+}
+div.titleLineElement{
+	margin-left:12px;
+	width:28%;
+}
+div.midsection{
+	height:190px;
+	display: flex;
+	font-size:14px;
+}
+div.midsectionElement{
+	display:flex;
+	width:49%;
+}
+div.picture{
+	margin-top:12px;
+	width: 170px;
+	height: 160px;
+	border: 2px solid black;
+	position: absolute;
+	overflow: hidden;
+}
+div.pictureContent{
+	margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+div.element {
+	line-height:0px;
+	margin-left:20px;
+}
+
+hr{
+	margin: 14px;
+	text-align: center;
+	border-top: 1px solid black;
+}
+
+footer{
+ text-align: center;
+	font-size:22px;
+	display: flex;
+	border-top: 1px solid black;
+	align-items: center;
+	justify-content: center;
+	font-weight: bold;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+	text-align: center;
+}
+.show {display:block;}
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+.actionSet{
+	background-color: red;
+	color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+.actionSet ul{
+	background-color: black;
+	color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+	background-image: url("Pergament.jpg");
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: #665d52;
+}
+.feedBackClass{
+	animation-name: wobbleHard;
+    animation-duration: 1s;
+    animation-direction: reverse;
+
+}
+</style>
+</head>
+<body>
+<div class="container">
+	<div class=title>
+		<h0>Graphical Object Generator</h0>
+		<p class=small>powered by Smalltalked-Visuals</p>
+	</div>
+	<div class=titleLine>
+		<div class="smallSpace">
+			<div class=titleLineElement> <p class=small id="date"></p> </div>
+			<div class=titleLineElement> <p class=small>Version 1.0</p> </div>
+			<div class=titleLineElement> <p class=small>Author: Me</p> </div>
+			<script>
+					n =  new Date();
+					y = n.getFullYear();
+					m = n.getMonth() + 1;
+					d = n.getDate();
+					document.getElementById("date").innerHTML = m + "/" + d + "/" + y;
+			</script>
+		</div>
+	</div>
+<div>
+	<div class=midsection>
+		<div class=midsectionElement>
+			<div> 
+				<div id="picture" class="picture" ondrop="drop_handler(event)"; ondragover="dragover_handler(event)" >
+					<div id="pictureContent" class="pictureContent">
+						
+					</div>
+				</div>
+				<p id= "pictureText" class="small" style=text-align:center>add Images to your action</p>
+				<script>
+				
+				</script>
+			</div>
+		</div>
+		<div class=midsectionElement>
+			<div class=element>
+			  <h1>Element</h1>
+			  <hr></hr>
+			  <p onclick = newElement()>New </p>
+			  <form id="elementForm">
+				<div class="labelRow">
+					<div class="labelPillar"> 
+						<label for="elementName">Name:</label>
+					</div>
+					<div class="inputPillar">
+						<input id="elementName" value="Brown Bird"></input>
+					</div>
+				</div>
+				<div class="labelRow">
+					<div class="labelPillar"> 
+						<label for=elementPosition>Position:</label>
+					</div>
+					<div class="inputPillar">
+						<input id=elementPosition value="0,0"></input>
+					</div>
+				</div>
+				<div class="labelRow">
+					<div class="labelPillar"> 
+						<label for=elementAuthor>Author:</label>
+					</div>
+					<div class="inputPillar">
+						<input id=elementAutor value="You"></input>
+					</div>
+				</div>
+
+				<div class="labelRow" >
+					<div class="labelPillar"> 
+						<label for=elementCrashBox>CrashBox:</label>
+					</div>
+				
+					<div class="inputPillar">
+						<input id=elementCrashBox value="0,0,0,0"></input>
+					</div>
+				</div>
+					
+				</form>		
+		  <input id="activeAction"></input>
+				   <div id="myDropdown" class="dropdown-content">
+						<div id=actionSet class=actionSet> </div>
+					  </div>
+			<div class="labelRow">
+						<div class="labelPillar"> 
+							<div class="dropdown">
+							  <label class="dropbtn" onmouseover="displayActions()">Assigned Actions</label>
+							  <div id= "Result" class="dropdown-content">
+								
+							  </div>
+							</div>
+						</div>
+						
+					</div>
+				
+			  <p onClick="addActionToActiveElement()">Add Active Action</ap>
+			  <p onClick="makeCollisionBoxFromActiveImage()">Box From Image</p>
+				<input class= "checkboxes" type="checkbox" id="gravityCheck">
+				<label class= "checkboxes" for="gravityCheck">add Gravity</label>
+				</div>
+			
+	
+				
+			</div>
+		</div>
+	</div>
+	<div class=midsection>
+		<div class=midsectionElement>
+			<div class=element>
+			  <h1>Onus Idle Action</h1>
+			  <hr></hr>
+			  <form id="onusIdleActionForm" >
+				<div class="labelRow">
+					<div class="labelPillar"> 
+						<label for="onusIdleName">Name:</label>
+					</div>
+					<div class="inputPillar">
+						<input id="onusIdleName" value="idle"></input>
+					</div>
+				</div>
+				<div class="labelRow">
+					<div class="labelPillar"> 
+						<label for=onusIdleSound>Sound:</label>
+					</div>
+					<div class="inputPillar">
+						<input id=onusIdleSound value="not supported atm"></input>
+					</div>
+				</div>
+				<div class="labelRow">
+					<div class="labelPillar"> 
+						<label for=onusIdlePriority>Priority:</label>
+					</div>
+					<div class="inputPillar">
+						<input id=onusIdlePriority value="1"></input>
+					</div>
+				</div>
+				<div class="labelRow">
+					<div class="labelPillar"> 
+						<label for=onusIdleEndurance>Strain:</label>
+					</div>
+					<div class="inputPillar">
+						<input id=onusIdleEndurance value="0"></input>
+					</div>
+				</div>
+				<div class="labelRow">
+					<div class="labelPillar"> 
+						<label for=onusIdleDuration>Duration:</label>
+					</div>
+					<div class="inputPillar">
+						<input id=onusIdleDuration value="Infinity"></input>
+					</div>
+				</div>
+					<div class="labelPillar"> 
+						<div>Animation</div>
+					</div>
+					<div class="inputPillar">
+						<div style="height:10px"></div>
+					</div>
+				<div class="labelRow"style="margin:2px 0px 0px 10px">
+					<div class="labelPillar"> 
+						<div for=onusIdleImagesRight onClick="selectRightArray()">Images Right</div>
+					</div>
+					<div class="inputPillar">
+						<div style="height:10px"></div>
+					</div>
+				</div>
+				<div class="labelRow"style="margin:2px 0px 0px 10px">
+					<div class="labelPillar"> 
+						<div for=onusIdleImages onClick="selectLeftArray()">Images Left</div>
+					</div>
+					<div class="inputPillar">
+						<div style="height:10px"></div>
+					</div>
+				</div>
+				<div class="labelRow"style="margin:2px 0px 0px 10px">
+					<div class="labelPillar"> 
+						<label for=onusIdleImagesTick>Tick:</label>
+					</div>
+					<div class="inputPillar">
+						<input id=onusIdleImagesTick value="1"></input>
+					</div>
+				</div>
+				<div class="labelRow">
+					<div class="labelPillar"> 
+						<label for=onusIdleForce>Force:</label>
+					</div>
+					<div class="inputPillar">
+						<input id=onusIdleForce value="0,0"></input>
+					</div>
+				</div>
+				<div class="labelRow"style="margin:2px 0px 0px 10px">
+					<div class="labelPillar"> 
+						<label for=onusIdleDelay>Delay:</label>
+					</div>
+					<div class="inputPillar">
+						<input id=onusIdleDelay value ="1"></input>
+					</div>
+				</div>
+				</form>
+			</div>
+		</div>
+		<div class=midsectionElement>
+			<div class=element>
+			  <h1>Active Action</h1>
+			  <hr></hr>
+			  <form id="activeActionForm" >
+				<div class="labelRow">
+					<div class="labelPillar"> 
+						<label for="activeActionName">Name:</label>
+					</div>
+					<div class="inputPillar">
+						<input value="ANewAction"></input>
+					</div>
+				</div>
+				<div class="labelRow">
+					<div class="labelPillar"> 
+						<label for=activeActionSound>Sound:</label>
+					</div>
+					<div class="inputPillar">
+						<input id=activeActionSound value="not supported atm"></input>
+					</div>
+				</div>
+				<div class="labelRow">
+					<div class="labelPillar"> 
+						<label for=activeActionPriority>Priority:</label>
+					</div>
+					<div class="inputPillar">
+						<input id=activeActionPriority value="1"></input>
+					</div>
+				</div>
+				<div class="labelRow">
+					<div class="labelPillar"> 
+						<label for=activeActionEndurance>Strain:</label>
+					</div>
+					<div class="inputPillar">
+						<input id=activeActionEndurance value="0"></input>
+					</div>
+				</div>
+				<div class="labelRow">
+					<div class="labelPillar"> 
+						<label for=activeActionDuration>Duration:</label>
+					</div>
+					<div class="inputPillar">
+						<input id=activeActionDuration value="Infinity"></input>
+					</div>
+				</div>
+					<div class="labelPillar"> 
+						<div>Animation</div>
+					</div>
+					<div class="inputPillar">
+						<div style="height:10px"></div>
+					</div>
+				<div class="labelRow"style="margin:2px 0px 0px 10px">
+					<div class="labelPillar"> 
+						<div for=activeActionImagesRight onClick="selectImageArrayFromActiveAction()">Images Right</div>
+					</div>
+					<div class="inputPillar">
+						<div style="height:10px"></div>
+					</div>
+				</div>
+				<div class="labelRow"style="margin:2px 0px 0px 10px">
+					<div class="labelPillar"> 
+						<div for=activeActionImages onClick="selectImageArrayLeftFromActiveAction()">Images Left</div>
+					</div>
+					<div class="inputPillar">
+						<div style="height:10px"></div>
+					</div>
+				</div>
+				<div class="labelRow"style="margin:2px 0px 0px 10px">
+					<div class="labelPillar"> 
+						<label for=activeActionImagesTick>Tick:</label>
+					</div>
+					<div class="inputPillar">
+						<input id=activeActionImagesTick value="1"></input>
+					</div>
+				</div>
+				<div class="labelRow">
+					<div class="labelPillar"> 
+						<label for=activeActionForce>Force:</label>
+					</div>
+					<div class="inputPillar">
+						<input id=activeActionForce value="1,0, -1,0"></input>
+					</div>
+				</div>
+				<div class="labelRow"style="margin:2px 0px 0px 10px">
+					<div class="labelPillar"> 
+						<label for=activeActionDelay>Delay:</label>
+					</div>
+					<div class="inputPillar">
+						<input id=activeActionDelay value ="1"></input>
+					</div>
+					
+				</div>
+				</form>
+				
+			</div>
+		</div>
+	</div>
+	
+	<div class="vl"></div>
+	<footer>
+		<a onClick="href='../index.html'"> Back To Game</a>
+		<a id="addElementArea" onClick="addElementToSavedElements()">Add Element</a>
+		<a onClick="publishElements()">Publish Elements</a>
+		</div></small>
+	</footer>
+</div>
+
+</body>
+<script>
+let idCounter = 0
+function useID()
+{	idCounter ++
+	return idCounter
+}
+let activeImageArray = []
+let activeImageArrayLeft = []
+
+let activeImageArrayFromActiveAction = []
+let activeImageArrayLeftFromActiveAction = []
+
+let selectedImageArray = activeImageArray
+let activeElement = 'undefined'
+let activeAction = 'undefined'
+let savedElements =[]
+let stringifiedSavedElements =[]
+function newElement()
+{
+	activeImageArray = []
+	activeImageArrayLeft = []
+
+	activeImageArrayFromActiveAction = []
+	activeImageArrayLeftFromActiveAction = []
+
+	selectedImageArray = activeImageArray
+	activeElement = 'undefined'
+	activeAction = 'undefined'
+	showLastImage(selectedImageArray)
+	updateCaption()
+}
+function getActiveImage()
+{
+	return selectedImageArray[selectedImageArray.length -1]
+}
+function makeCollisionBoxFromActiveImage()
+{
+	let image = getActiveImage()
+	let newValue
+	if (image === undefined)
+	{
+		newValue = elementPosition.value + ",0,0"
+	}
+	else
+	{
+		newValue = elementPosition.value + "," + image.width.toString() + "," + image.height.toString()
+	}
+	let element = elementCrashBox
+	element.value = newValue
+
+}    
+
+function displayActions()
+{
+	if(getActiveElement() !== 'undefined')
+	{
+		var e = "<hr/>";  
+		var actions = Object.keys(activeElement.possibleActions)
+		var node = document.getElementById('Result');
+		while (node.hasChildNodes()) 
+		{
+			node.removeChild(node.firstChild)
+		}
+		for (var y=0; y<actions.length; y++)
+		{
+			let htmlElement = document.createElement(actions[y]);
+			htmlElement.innerHTML = e + actions[y] + e
+			node.appendChild(htmlElement)
+		}
+	}
+}
+function makeElementActive()
+{
+	setActiveElement(gameElementFromForm(elementForm))
+}
+function setActiveAction(anAction)
+{
+	activeAction = anAction
+}
+function setActiveElement(aGameElement)
+{
+	activeElement = aGameElement
+}
+function activeActionFromForm()
+{
+	new Action(actionParameterObjectFromInput(activeAction))
+}
+function getActiveElement()
+{
+	return activeElement
+}
+function getActiveAction()
+{
+	return new Action(actionParameterObjectFromInput(activeActionForm))
+}
+function savedElementsContains(anElementName)
+{
+	returnValue = false
+	savedElements.forEach((element)=>
+		{
+			if(element.name === anElementName){returnValue = true}
+		})
+	return returnValue
+}
+function addElementToSavedElements()
+{
+	makeElementActive()
+	if(document.getElementById("gravityCheck").checked)
+	{
+		activeElement.applyAction("gravity")
+	}
+	if(!savedElementsContains(getActiveElement().name))
+	{
+		savedElements.push(getActiveElement())
+	}
+}
+function stringifySavedElements()
+{
+	var counter = 0
+	var gatheringObject = {}
+	savedElements.forEach(element=>
+		{
+			gatheringObject[counter] = element 
+			counter ++
+		})
+	stringifiedSavedElements = JSON.stringify(gatheringObject)
+}
+function pushSavedElementsToLocalStorage()
+{
+	localStorage.setItem("savedElements",stringifiedSavedElements)
+}
+function publishElements() 
+{
+	stringifySavedElements();
+	pushSavedElementsToLocalStorage();
+}
+function addActionToActiveElement()
+{
+	makeElementActive()
+	getActiveElement().possibleActions[getActiveAction().name] = getActiveAction()
+}
+function addGravity() 
+{
+	makeElementActive()
+
+}
+selectRightArray = function()
+{
+	selectedImageArray = activeImageArray
+	updateCaption("Right side Idle")
+	showLastImage(selectedImageArray)
+}
+selectLeftArray = function()
+{
+	selectedImageArray = activeImageArrayLeft
+	updateCaption("Left side Idle")
+	showLastImage(selectedImageArray)
+}
+selectImageArrayFromActiveAction = function()
+{
+	selectedImageArray = activeImageArrayFromActiveAction
+	updateCaption("Right side Active Action")
+	showLastImage(selectedImageArray)
+}
+selectImageArrayLeftFromActiveAction = function()
+{
+	selectedImageArray = activeImageArrayLeftFromActiveAction
+	updateCaption("Left side Active Action")
+	showLastImage(selectedImageArray)
+}
+getSavedPix = function()
+{
+	let objectString =localStorage.getItem("savedPix")
+	return JSON.parse(objectString)
+}
+addToSavedPix = function(name, anImg)
+{
+	let fromSavedPix = getSavedPix()
+	fromSavedPix[name] = anImg	
+	let jsonSavedPix = JSON.stringify(fromSavedPix)
+	localStorage.setItem("savedPix", jsonSavedPix)
+}
+function actionParameterObjectFromInput(aForm)
+{
+	//new Action( name:'Sd', animation:(new ImageStream(tick:6, imageArray:[], imageArraLeft:[]), force: new ForceStream({forceArray}), priority:10,enduranceCost:0.2, duration:0)
+	let parameterObj ={}
+	let inputList = aForm.querySelectorAll("input")
+	let labelList = aForm.querySelectorAll("label")
+	
+	for(var i = 0;  i < inputList.length; ++i)
+	{
+		var element = inputList[i]
+		var name = labelList[i].innerText
+		var val = element.value
+		if(name)
+		{
+			if (name === "Name:")
+			{
+				parameterObj["name"] = val
+				parameterObj["imageArray"] = activeImageArray
+				let imgArrayRight = [] 
+				activeImageArray.forEach(img=>{imgArrayRight.push(img.id)})
+				
+				let imgArrayLeft = []
+				activeImageArray.forEach(img=>{imgArrayLeft.push(img.id)})
+				parameterObj["animation"] = new ImageStream({imageArray:imgArrayRight, imageArray:imgArrayLeft, tick:onusIdleImagesTick.value})		
+			}
+			else if (name === "Sound:")
+			{
+				parameterObj["sound"] = val
+			}
+			else if( name ==="Priority:")
+			{
+				parameterObj["priority"] =  parseInt(val)
+			}
+			else if( name ==="Strain:")
+			{
+				parameterObj["enduranceCost"] = parseInt(val)
+			}	
+			else if( name === "Duration:")
+			{
+				if(val === "")
+				{
+					parameterObj["duration"] = 0
+				}
+				else if(val === "Infinity")
+				{
+					parameterObj["duration"] = Infinity
+				}
+				else
+				{
+					parameterObj["duration"] = parseInt(val)
+				}
+			}
+			else if (name === "Force:")
+			{	
+				let pointArray=[]
+				let pointStrings = val.split(" ")
+				pointStrings.forEach(pointString=>{pointArray.push(new Position(pointString))})
+				parameterObj["force"] = new ForceStream({forceArray:pointArray})
+			}
+			else if( name === "Delay:") 
+			{
+				if(val === "")
+				{
+					parameterObj["force"]["delay"] = 0
+				}
+				else if(val === "Infinity")
+				{
+					parameterObj["force"]["delay"] = Infinity
+				}
+				else
+				{
+					parameterObj["force"]["delay"]= parseInt(val)
+				}
+			}
+		}
+	}
+	return parameterObj
+}
+function gameElementParameterObjectFromInput(aForm)
+{
+	let obj = {}
+	var inputList=aForm.querySelectorAll("input")
+	var labelList=aForm.querySelectorAll("label")
+	for(var i = 0; i < inputList.length; ++i) 
+	{
+		var element = inputList[i]
+		var name = labelList[i].innerText
+		var val = element.value
+	
+		if(name)
+		{
+			if (name ==="Name:")
+			{
+				obj["name"]=val
+			}
+			else if (name === "Author:")
+			{
+				obj["author"]=val
+			}
+			else if( name ==="Position:")
+			{
+				obj["position"] =new Position(val)
+			}	
+			else if( name === "CrashBox:")
+			{
+				obj["crashBox"] =new Box(val)
+			}	
+		}
+	}
+	return obj
+}
+function addActionsToParameterObject(anInitObject)
+{
+	//?? still stub
+}
+function gameElementFromForm(aForm)
+{
+	let parameterObject = gameElementParameterObjectFromInput(aForm)
+	let element = new GameElement(parameterObject)
+	let onusIdle = new Action(actionParameterObjectFromInput(onusIdleActionForm))
+	element.replaceIdle(onusIdle)
+	//maken the images into a string 
+	console.log(onusIdle)
+	console.log(element)
+	return element
+	//dropedOne" needs to be a container array
+
+}
+function drop_handler(ev) 
+{
+	console.log("Droped!")
+	ev.preventDefault()
+	// If dropped items aren't files, reject them
+	var dataTransferFromEvent = ev.dataTransfer
+	for (var i=0; i < dataTransferFromEvent.items.length; i++) 
+	{
+		if (dataTransferFromEvent.items[i].kind == "file") 
+		{
+			let file = dataTransferFromEvent.items[i].getAsFile()
+			let img = prepareImageFile(file)
+		}
+	}
+}
+function addToSelectedImages(anImage)
+{
+	selectedImageArray.push(anImage)
+}
+
+function updateCaption(aString)
+{
+	let selectedLength = selectedImageArray.length
+	document.getElementById("pictureText").innerHTML = aString + selectedLength.toString()  + " / " + selectedLength.toString() 
+}
+function showLastImage(imageArray)
+{
+	let documentElement = document.getElementById("pictureContent")
+	if(imageArray.length === 0)
+	{
+		let htmlElement = document.createElement('p');
+		htmlElement.innerHTML = 'no Image';
+		document.body.appendChild(htmlElement);
+		documentElement.replaceChild(htmlElement,documentElement.childNodes[0])
+	}
+	else{
+		documentElement.replaceChild(imageArray[imageArray.length -1],documentElement.childNodes[0])
+	}
+}
+function prepareImageFile(aFile)
+{
+	let reader = new FileReader()
+	reader.onload= function(e)
+	{
+		//create image from data
+		let img = new Image()
+		img.src = reader.result
+		img.id = elementName.value + activeImageArray.length.toString()
+		//add to local Storage
+		addToSavedPix(img.id, img.src)
+
+		//add to activeArray
+		selectedImageArray.push(img)
+		updateCaption()
+		//show image
+		showLastImage(selectedImageArray)
+	}
+	reader.readAsDataURL(aFile)	
+}
+function dragover_handler(ev) {
+  console.log("dragOver");
+  //change image Boarder
+  // Prevent default select and drag behavior
+  ev.preventDefault();
+}
+</script>
+</html>

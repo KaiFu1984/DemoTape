@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Blue Bird</title>
+
+	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+
+	<script src="images1.0.js"></script>
+	<script src="gameObjects1.0.js"></script>
+	<script src="specificObjects1.0.js"></script>
+	<!-- <link rel="icon" href="faviconBW.gif" type="image/gif"> -->
+	
+ </head>
+<style>
+html, body {
+    overflow: auto;
+}
+html{
+min-height: 100%;
+}
+body {
+	min-height: 100vh;
+    font-family: "Lato", sans-serif;
+	background-color:#000;
+}
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: #111;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 15px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+#main {
+	min-height: 100vh;
+    transition: margin-left .5s;
+    padding: 0px;
+	background-color: #000;
+}
+canvas {
+    padding: 0;
+    margin: auto;
+    display: block;
+    width: 800px;
+    height: 600px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+</style>
+</head>
+<body>
+
+<div id="mySidenav" class="sidenav">
+	<a onclick="nextLevel()"> next Level </a>	
+  <a href="gOg.html">gOg</a>
+  <a href="#" onclick="saveWorld()">Save World</a>
+  <a href="#" onclick="loadSavedWorld()">Load World</a>
+  <a href="#" onclick="disableSound()">Sound Off</a>
+  <a href="#" onclick="enableSound()">Sound On</a>
+  <a></a>
+  <!-- <a href="#" onclick="addSavedElement()">AddgOgElement</a> -->
+  <!-- <a href="#" onclick="addSavedElementToBackground()">gOgElementToBackground</a> -->
+  <a href="#" onclick="addSavedElementsToBackground()">gOg Elements To Background</a>
+  <a href="#" onclick="addSavedElementsToForeground()">gOg Elements To Foreground</a>
+  <a><input id="worldString"></input></a>
+  <a href="#" onclick="loadFromString()">loadString</a>
+  <a href="#" onclick="showWorldString()">showWorldString</a>
+  <a></a>
+  <a href = "#" onClick="zoomCanvas">Zoom in</a>
+  <a href="#" onclick="addBrightness()">addBrightness</a>
+  <a href="#" onclick="removeFilter()">removeBrightness</a>
+  <a href="#" onclick="drawCrashBoxes()">collisonBoxes</a>
+  
+  <a href="#">BlueBird@Gmail.com</a>
+</div>
+	
+<div id="main" onclick="openNav()">
+	<canvas id="gameCanvas" width=800px height=600px>
+	</canvas>
+</div>
+   
+</body>
+
+<script>
+
+let gEBird = new Bird({name:"bird",author:"me", position:"100,468",crashBox:"120,488,25,25"})
+let cam = new CameraOne()
+gEBird.attach(cam)
+
+
+let cLevel = new PresentationLevel()
+
+let city = new City()
+city.layers.foreground.addElement(gEBird)
+city.layers.foreground.addElement(cam)
+
+let worldPmo = {levels:new Stream({contentArray:[city,cLevel]})}
+
+let world = new World(worldPmo)
+if(localStorage.getItem("savedWorld") === null)
+{
+	saveWorld()
+}
+function zoomCanvas()
+{
+	let ctx = canvasContext.getContext('2d')
+	ctx.scale(2, 2)
+}
+function nextLevel()
+{
+	world.levels.next()
+	world.levelToBe = world.levels.getContent()
+}
+function addBrightness()
+{
+	let canvas = document.getElementById('gameCanvas');
+	var ctx = canvas.getContext('2d');
+	ctx.filter = 'brightness(3)'
+	//ctx.filter = 'contrast(2)'
+}
+function removeFilter()
+{
+	let canvas = document.getElementById('gameCanvas');
+	var ctx = canvas.getContext('2d');
+	ctx.filter = 'none'
+}
+
+function imageFromJsonString(json)
+{
+	let parsedJSON = JSON.parse(JSON)
+	let img = new Image()
+	img.src = parsedJSON.src
+	img.id = parsedJSON.id
+	return img
+}
+function addSavedElement()
+{
+	let JSONobj = localStorage.getItem("savedElement")
+	world.levelToBe.layers.foreground.addElement(new GameElement(JSON.parse(JSONobj)),'foreground')
+}
+function addSavedElementToBackground()
+{
+	let JSONobj = localStorage.getItem("savedElement")
+	world.levelToBe.layers.background1.addElement(new GameElement(JSON.parse(JSONobj)),'background1')
+}
+function addSavedElementsToBackground()
+{
+	let JSONobj = localStorage.getItem("savedElements")
+	let objectOfObjects = JSON.parse(JSONobj)
+	for(var key in objectOfObjects) 
+	{
+		world.levelToBe.layers.background1.addElement(new GameElement(objectOfObjects[key]),'background1')
+	}
+}
+function addSavedElementsToForeground()
+{
+	let JSONobj = localStorage.getItem("savedElements")
+	let objectOfObjects = JSON.parse(JSONobj)
+	for(var key in objectOfObjects) 
+	{
+		let gE = new GameElement(objectOfObjects[key])
+		world.levelToBe.layers.foreground.addElement(gE,'background1')
+		console.log(gE)
+	}
+}
+//showWorldString() LoadFromString()
+function showWorldString()
+{
+	console.log(JSON.stringify(world))
+}
+function loadFromString()
+{
+	let worldString = document.getElementById("worldString").value
+	let parsedJSON = JSON.parse(worldString)
+	world = new World(parsedJSON)
+}
+function myException(message)
+{
+	this.name="myException"
+	this.message = message;
+}
+function saveWorld()
+{
+	let objectString= JSON.stringify(world)
+	localStorage.setItem("savedWorld", objectString)
+}
+function loadSavedWorld()
+{
+	let saved = localStorage.getItem("savedWorld")
+	let parsedJSON = JSON.parse(saved)
+	world = new World(parsedJSON)
+}	
+
+function openNav() {
+	if (paused)
+	{
+		closeNav()
+	}
+	else
+	{
+		document.getElementById("mySidenav").style.width = "250px";
+		document.getElementById("main").style.marginLeft = "0px";
+		pause()
+	}
+}
+function closeNav() {
+	unpause()
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("main").style.marginLeft= "auto";
+    let canvas = document.getElementById('gameCanvas');
+	let ctx = canvas.getContext('2d');
+}
+
+</script>
+<!-- /----------GAMEGAMEGAMEGAME------------ -->
+<script> 
+window.addEventListener("gamepadconnected", function(e) 
+{
+  var gp = navigator.getGamepads()[e.gamepad.index]
+  console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.", gp.index, gp.id, gp.buttons.length, gp.axes.length)
+})
+function canGame() {
+    return "getGamepads" in navigator;
+}
+"use strict";
+Array.prototype.contains = function(anIdentifier,aString)
+{
+		var bool=false
+		this.forEach(element=>{if(element[anIdentifier] === aString){bool=true}})
+		return bool
+}
+
+let framesPerSecond = 60
+const canvas = document.getElementById('gameCanvas')
+const canvasContext = canvas.getContext('2d')
+
+let paused = false;
+function pause()
+{
+	paused = true
+}
+function unpause()
+{
+	paused = false
+}
+let sound = 'on'
+function disableSound()
+{
+	sound = 'disabled'
+}
+function enableSound()
+{
+	sound = 'on'
+} 
+window.onload=function()
+{
+	
+	const aud= new Audio('Sounds/NyghtHymn1.0.wav')
+	aud.play()
+	let dIsPressed = false
+	let aIsPressed = false
+	let spaceIsPressed=false
+	let kIsPressed=false
+	let jIsPressed=false
+	let iIsPressed=false
+	let mIsPressed=false
+	//keyboard
+	function pressD(){if(!dIsPressed){dIsPressed=true}}
+	function pressA(){if(!aIsPressed){aIsPressed=true}}
+	function pressSpace(){if(!spaceIsPressed){spaceIsPressed=true}}
+	function pressK(){if(!kIsPressed){kIsPressed=true}}
+	function pressJ(){if(!jIsPressed){jIsPressed=true}}
+	function pressI(){if(!iIsPressed){iIsPressed=true}}
+	function pressM(){if(!mIsPressed){mIsPressed=true}}
+	
+	setInterval(function()
+	{
+	//controller
+		if(paused)
+				return;
+		var firstGamePad = navigator.getGamepads()[0]
+		if(firstGamePad !== null)
+		{
+			var aButton = firstGamePad.buttons[0]
+			var bButton = firstGamePad.buttons[1]
+			var xButton = firstGamePad.buttons[2]
+			var yButton = firstGamePad.buttons[3]
+			var lOneButton = firstGamePad.buttons[4]
+			var rOneButton = firstGamePad.buttons[5]
+			var lTwoButton = firstGamePad.buttons[6]//got a value from 0 - 1
+			var rTwoButton = firstGamePad.buttons[7]//"
+			var startButton = firstGamePad.buttons[8]
+			var selectButton = firstGamePad.buttons[9]
+			var leftStickDownButton = firstGamePad.buttons[10]
+			var rightStickDownButton = firstGamePad.buttons[11]
+			var dPadUpButton = firstGamePad.buttons[12]
+			var dPadDownButton = firstGamePad.buttons[13]
+			var dPadLeftButton = firstGamePad.buttons[14]
+			var dPadRightButton = firstGamePad.buttons[15]
+			var dButton = firstGamePad.buttons[16]
+			var leftStickX = firstGamePad.axes[0] // -1 bis +1
+			var leftStickY = firstGamePad.axes[1] // -1 bis +1
+			var rightStickLeftRight = firstGamePad.axes[2] // -1 bis +1
+			var rightStickUpDown = firstGamePad.axes[3] // -1 bis +1	
+		}
+			recover()
+			moveEverything()
+			//controller
+			if(firstGamePad !== null){
+				//Todo empfindlichkeit in optionen einstellbar
+				if(leftStickX > 0.2){world.bird.turnRight();world.bird.applyMove(leftStickX*8)}
+				if(leftStickX < -0.2){world.bird.turnLeft();world.bird.applyMove(leftStickX*8)}
+				if(rTwoButton.pressed){world.bird.applyFly(rTwoButton.value*3)}
+				if(xButton.pressed){world.bird.applyGlide()}
+				if(lOneButton.pressed){world.bird.colibriFlight()}
+				else{world.bird.removeAction('glide')}
+				//if(rOneButton.pressed){world.bird.applyDash()}
+			}
+			//keyboard
+			if (dIsPressed){world.bird.turnRight();world.bird.applyMove(4)}
+			else if (aIsPressed){world.bird.turnLeft();world.bird.applyMove(4)} 
+			//else(world.bird.removeAction('move'))	//implementation of working duration  made them superfluous
+			if (spaceIsPressed){world.bird.applyFly(4)}
+			//else(world.bird.removeAction('fly'))				
+			if (kIsPressed){world.bird.applyGlide()} 
+			//else(world.bird.removeAction('glide'))	
+			if (jIsPressed){world.bird.applyDash()}
+			//else(world.bird.removeAction('dash'))	
+			if (iIsPressed){framesPerSecond=14} 		
+			//else(framesPerSecond=11)	
+			if(mIsPressed){world.bird.applyColibriFlight()}
+	}
+			, 1000/framesPerSecond);
+			
+		document.addEventListener('keydown', function(event) 
+				{
+				if (event.keyCode===87){} //w
+				else if (event.keyCode===83){} //s		
+				else if (event.keyCode===65){pressA()} //a
+				else if (event.keyCode===68){pressD()} //d
+				else if (event.keyCode===74){pressJ()} //j
+				else if (event.keyCode===75){pressK()}//k
+				else if (event.keyCode===32){pressSpace()} //space
+				else if (event.keyCode===73){pressI()}//i
+				else if (event.keyCode===77){pressM()}
+				}
+				, true)
+				
+			document.addEventListener('keyup', function(event) 
+				{
+				if (event.keyCode===87){}//w
+				else if (event.keyCode===83){}//s
+				else if (event.keyCode===65){aIsPressed =false}//a
+				else if (event.keyCode===68){dIsPressed = false}//d
+				else if (event.keyCode===74){jIsPressed = false} //j
+				else if (event.keyCode===75){kIsPressed = false}//k
+				else if (event.keyCode===32){spaceIsPressed = false} //space
+				else if (event.keyCode===73){iIsPressed = false} //i
+				else if (event.keyCode===77){mIsPressed = false} //m
+				}
+				, true)	
+}
+function recover()
+{
+	world.levelToBe.layers["foreground"].getElements().forEach(function(creature)
+		{
+		if( creature.endurance < creature.maxEndurance)
+			{
+				creature.endurance = creature.endurance + creature.recoveryRate
+			}
+		})
+}
+function moveEverything()
+{	
+	for(var layer in world.levelToBe.layers)
+	{
+		world.levelToBe.layers[layer].getElements().forEach(element =>
+		{
+			element.treatActions(element)
+			
+			if(element.totalForceVector.isZero()=== false)
+			{
+				element.releaseForces()
+			}
+		//update carried parts
+		//changedList.forEach(string =>{world.gameElementById[string].updateSupParts()})
+		
+		element.draw()
+		element.checkEnviroment()
+		})
+	}
+	//world.camera.move()
+}
+function drawCrashBoxes()
+{
+		let all = world.levelToBe.layers["foreground"].getElements()
+		all.forEach(function(thing)
+		{
+			thing.crashBox.draw()
+		})
+}
+function colorRect(leftX, topY, width, height, drawColor)
+{
+		canvasContext.fillStyle = drawColor;
+		canvasContext.fillRect(leftX,topY,width,height);
+}
+
+</script>	
+</html>
